@@ -1,16 +1,12 @@
-# netflix
+# Netflix UI Clone in Flutter
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+This project aims to create a pixel-perfect clone of the Netflix mobile application UI using the Flutter framework. It focuses on replicating core UI elements and layouts for a familiar experience, serving as a learning opportunity for Flutter UI development and state management.
 
-This project is a starting point for a Flutter application.
+## Technologies Used
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* **Flutter:** Cross-platform UI toolkit.
+* **Dart:** Flutter's programming language.
+* **Flutter ScreenUtil:** For responsive UI design.
+* **GetX:** For state management, routing, and more.
