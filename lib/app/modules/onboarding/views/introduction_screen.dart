@@ -1,37 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:netflix/app/config/app_colors.dart';
+import 'package:get/get.dart';
+import '../../../controllers/introduction_screen_controller.dart';
 
-class IntroductionScreen extends StatefulWidget {
-  const IntroductionScreen({super.key});
-  @override
-  State<IntroductionScreen> createState() => _IntroductionScreenState();
-}
+class IntroductionScreen extends StatelessWidget {
+  final IntroductionController controller = Get.put(IntroductionController());
 
-class _IntroductionScreenState extends State<IntroductionScreen> {
-  final PageController _pageController = PageController(initialPage: 0);
-  int _currentPageIndex = 0;
-  final List<String> _imagePaths = [
-    'assets/images/intro_img1.jpg',
-    'assets/images/intro_img2.jpg',
-    'assets/images/intro_img3.jpg',
-  ];
-  final List<String> _textTitles = [
-    'Unlimited movies, TV shows, and more.',
-    'Watch anywhere, anytime.',
-    'Cancel anytime.',
-  ];
-  final List<String> _textSubtitles = [
-    'Watch anywhere. Cancel anytime.',
-    'Stream on your phone, tablet, laptop, and TV.',
-    'No commitments. Cancel online.',
-  ];
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  IntroductionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +46,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       body: Stack(
         children: [
           PageView.builder(
-            controller: _pageController,
-            itemCount: _imagePaths.length,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPageIndex = index;
-              });
-            },
+            controller: controller.pageController,
+            itemCount: controller.imagePaths.length,
+            onPageChanged: controller.changePage,
             itemBuilder: (context, index) {
               return  // Removed Positioned
                 Column(
@@ -89,7 +61,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.asset(
-                            _imagePaths[index],
+                            controller.imagePaths[index],
                             fit: BoxFit.cover,
                             width: screenWidth * 0.8,
                           ),
@@ -98,7 +70,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     ),
                     SizedBox(height: screenHeight * 0.04),
                     Text(
-                      _textTitles[index],
+                      controller.textTitles[index],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -108,7 +80,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     ),
                     SizedBox(height: screenHeight * 0.01),
                     Text(
-                      _textSubtitles[index],
+                      controller.textSubtitles[index],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey,
@@ -118,35 +90,30 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     SizedBox(height: screenHeight * 0.05),
                   ],
                 );
-
             },
           ),
           Positioned(
             left: 0,
             right: 0,
             bottom: screenHeight * 0.12,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_imagePaths.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    width: screenWidth * 0.02,
-                    height: screenHeight * 0.01,
-                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentPageIndex == index ? Colors.red : Colors.grey,
+            child: Obx(
+                  () => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(controller.imagePaths.length, (index) {
+                  return GestureDetector(
+                    onTap: () => controller.changePage(index),
+                    child: Container(
+                      width: screenWidth * 0.02,
+                      height: screenHeight * 0.01,
+                      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: controller.currentPageIndex.value == index ? Colors.red : Colors.grey,
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
           ),
           Positioned(
@@ -161,7 +128,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.red,
+                    backgroundColor: const Color(0xFFE50914),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -169,7 +136,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   child: Text(
                     'SIGN IN',
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: Colors.white,
                       fontSize: screenWidth * 0.045,
                       fontWeight: FontWeight.bold,
                     ),
@@ -183,4 +150,3 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
   }
 }
-

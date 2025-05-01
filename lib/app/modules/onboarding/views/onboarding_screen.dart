@@ -1,23 +1,14 @@
+import '../../../config/app_colors.dart';
+import '../../../controllers/onboarding_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:netflix/app/config/app_colors.dart';
-import 'introduction_screen.dart';
 
-class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({super.key});
-  @override
-  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
-}
+class OnBoardingScreen extends StatelessWidget {
 
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      Get.off(() => const IntroductionScreen());
-    });
-  }
+  final OnBoardingController controller = Get.put(OnBoardingController());
+
+  OnBoardingScreen({super.key}); // Corrected constructor.
 
   @override
   Widget build(BuildContext context) {
@@ -33,4 +24,3 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 }
-
